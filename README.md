@@ -48,7 +48,7 @@ docker compose up -d --build
 | 订单 Swagger | http://localhost:18083/swagger-ui/index.html |
 | 客服 Swagger | http://localhost:18084/swagger-ui/index.html |
 
-所有宿主端口仅绑定到 `127.0.0.1`。教学环境默认凭据写在 Compose 配置中，正式环境请通过环境变量覆盖并更换密钥。
+所有宿主端口仅绑定到 `127.0.0.1`。教学环境默认凭据写在 Compose 配置中；正式环境可通过 `INTERNAL_KEY` 和 `GRAFANA_ADMIN_PASSWORD` 覆盖对应配置，并应同步修改 MySQL 初始化脚本中的数据库密码。
 
 ## 验证
 
