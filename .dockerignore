@@ -1,0 +1,7 @@
+**/src
+**/target/classes
+**/target/test-classes
+**/target/surefire-reports
+**/*.jar.original
+logs
+screenshots

@@ -1,0 +1,155 @@
+name: mall-lab
+services:
+  mysql:
+    image: mysql:8.0
+    command: ["--default-time-zone=+08:00"]
+    environment:
+      MYSQL_ROOT_PASSWORD: mall_root_lab_password
+    ports: ["127.0.0.1:13306:3306"]
+    volumes:
+      - mall-db:/var/lib/mysql
+      - ./deploy/mysql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pmall_root_lab_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+    mem_limit: 600m
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    environment:
+      MODE: standalone
+      NACOS_AUTH_ENABLE: "false"
+      JVM_XMS: 128m
+      JVM_XMX: 384m
+      JVM_XMN: 64m
+    ports: ["127.0.0.1:18848:8848", "127.0.0.1:19848:9848"]
+    mem_limit: 700m
+  sentinel:
+    image: bladex/sentinel-dashboard:1.8.6
+    ports: ["127.0.0.1:18858:8858"]
+    mem_limit: 400m
+  user-service:
+    build:
+      context: .
+      args:
+        MODULE: user-service
+    environment:
+      NACOS_ADDR: nacos:8848
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: mall
+      DB_PASSWORD: mall_lab_password
+      SENTINEL_ADDR: sentinel:8858
+      INTERNAL_KEY: mall-lab-internal-key-change-me
+    ports: ["127.0.0.1:18081:8081"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    mem_limit: 450m
+    restart: unless-stopped
+  product-service:
+    build:
+      context: .
+      args:
+        MODULE: product-service
+    environment:
+      NACOS_ADDR: nacos:8848
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: mall
+      DB_PASSWORD: mall_lab_password
+      SENTINEL_ADDR: sentinel:8858
+      INTERNAL_KEY: mall-lab-internal-key-change-me
+    ports: ["127.0.0.1:18082:8082"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    mem_limit: 450m
+    restart: unless-stopped
+  order-service:
+    build:
+      context: .
+      args:
+        MODULE: order-service
+    environment:
+      NACOS_ADDR: nacos:8848
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: mall
+      DB_PASSWORD: mall_lab_password
+      SENTINEL_ADDR: sentinel:8858
+      INTERNAL_KEY: mall-lab-internal-key-change-me
+    ports: ["127.0.0.1:18083:8083"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    mem_limit: 450m
+    restart: unless-stopped
+  assistant-service:
+    build:
+      context: .
+      args:
+        MODULE: assistant-service
+    environment:
+      NACOS_ADDR: nacos:8848
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: mall
+      DB_PASSWORD: mall_lab_password
+      SENTINEL_ADDR: sentinel:8858
+      INTERNAL_KEY: mall-lab-internal-key-change-me
+    ports: ["127.0.0.1:18084:8084"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    mem_limit: 450m
+    restart: unless-stopped
+  gateway:
+    build:
+      context: .
+      args:
+        MODULE: gateway
+    environment:
+      NACOS_ADDR: nacos:8848
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: mall
+      DB_PASSWORD: mall_lab_password
+      SENTINEL_ADDR: sentinel:8858
+      INTERNAL_KEY: mall-lab-internal-key-change-me
+    ports: ["127.0.0.1:18080:8080"]
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    mem_limit: 450m
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    ports: ["127.0.0.1:19090:9090"]
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    mem_limit: 200m
+  grafana:
+    image: grafana/grafana:11.3.0
+    ports: ["127.0.0.1:13000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: mall_lab_admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    mem_limit: 200m
+volumes:
+  mall-db:

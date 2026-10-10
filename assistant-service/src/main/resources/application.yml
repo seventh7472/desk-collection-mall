@@ -1,0 +1,23 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: assistant-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:localhost:18848}
+        namespace: public
+  jackson:
+    default-property-inclusion: non_null
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    com.example.mall: INFO

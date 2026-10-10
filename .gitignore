@@ -1,0 +1,35 @@
+# Maven build output
+**/target/
+*.class
+
+# Runtime and local verification output
+*.log
+*.tmp
+*.bak
+acceptance-results.json
+infrastructure-results.json
+browser-a11y.json
+browser-a11y-final.json
+container-evidence.txt
+database-evidence.txt
+screenshots/
+
+# Local IDE and OS files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local environment overrides and credentials
+.env
+.env.*
+!.env.example
+
+# Generated or private report artifacts
+*.docx
+*.pdf
+*实验报告*
+report-work/
+online-mall-source-package/
+在线商城微服务项目.zip

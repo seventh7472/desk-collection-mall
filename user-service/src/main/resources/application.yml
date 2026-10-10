@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:localhost:18848}
+        namespace: public
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:13306}/mall_user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${DB_USER:mall}
+    password: ${DB_PASSWORD:mall_lab_password}
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+  jackson:
+    default-property-inclusion: non_null
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    com.example.mall: INFO
+  # Database credentials are limited to this lab deployment.

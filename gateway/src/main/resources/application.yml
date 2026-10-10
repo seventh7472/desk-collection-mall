@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:localhost:18848}
+    gateway:
+      routes:
+        - id: users
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**
+        - id: products
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**,/api/categories
+        - id: orders
+          uri: lb://order-service
+          predicates:
+            - Path=/api/cart/**,/api/orders/**
+        - id: assistant
+          uri: lb://assistant-service
+          predicates:
+            - Path=/api/assistant/**
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

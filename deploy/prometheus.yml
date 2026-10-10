@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: mall-services
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["gateway:8080", "user-service:8081", "product-service:8082", "order-service:8083", "assistant-service:8084"]

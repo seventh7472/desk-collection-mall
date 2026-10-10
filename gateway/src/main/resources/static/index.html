@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087e8b">
+  <title>桌面集 · 数码办公商城</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="桌面集首页"><span class="brand-symbol" aria-hidden="true">▦</span><span>桌面集<small>数码办公商城</small></span></a>
+      <nav aria-label="商城导航">
+        <button class="nav-button active" data-view="products" type="button" aria-current="page">选购商品</button>
+        <button class="nav-button" data-view="cart" type="button">购物车 <span id="cart-count" class="count">0</span></button>
+        <button class="nav-button" data-view="orders" type="button">我的订单</button>
+      </nav>
+      <div class="account-actions"><span id="account-name"></span><button id="auth-open" class="button button-small" type="button">登录 / 注册</button><button id="logout" class="text-button" type="button" hidden>退出</button></div>
+    </div>
+  </header>
+  <main id="main" class="main" tabindex="-1">
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <section id="products-view">
+      <div class="hero">
+        <div class="hero-copy"><h1>让你的桌面，<br>更顺手一点。</h1><p>从一把键盘到一块硬盘，<br>找到适合你的日常办公装备。</p><a class="hero-link" href="#catalog">挑选桌面好物 <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-visual" aria-hidden="true"><svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg"><ellipse cx="326" cy="268" rx="240" ry="16" fill="#cae2e3"/><path d="M82 244H560" stroke="#fff" stroke-width="8"/><rect x="165" y="37" width="259" height="164" rx="10" fill="#173842"/><rect x="177" y="48" width="235" height="140" rx="3" fill="#d7f0ed"/><path d="M177 158L253 87L313 126L351 88L412 153V188H177Z" fill="#7bbcc0"/><path d="M177 173L262 126L318 158L364 123L412 160V188H177Z" fill="#358c99"/><circle cx="367" cy="75" r="14" fill="#f8d18b"/><path d="M283 201V222H261L253 233H336L328 222H306V201" fill="#47636d"/><path d="M148 239L183 215H369L405 239Z" fill="#f6ffff" stroke="#90bfc3" stroke-width="3"/><path d="M187 224H365M175 231H383" stroke="#a9cdcf" stroke-width="3" stroke-dasharray="10 5"/><path d="M429 236C430 211 448 208 460 216L476 236Z" fill="#fff" stroke="#90bfc3" stroke-width="3"/><path d="M482 221L512 93L469 61" fill="none" stroke="#355560" stroke-width="9" stroke-linejoin="round"/><path d="M437 91L465 55L497 80Z" fill="#f4c981"/><path d="M461 242H512" stroke="#355560" stroke-width="9" stroke-linecap="round"/><rect x="105" y="201" width="31" height="43" rx="5" fill="#f6ffff"/><path d="M135 208H144Q155 208 152 224Q150 234 135 230" fill="none" stroke="#f6ffff" stroke-width="7"/><path d="M90 204L95 170M107 194L101 156M115 196L124 164" stroke="#408f79" stroke-width="6" stroke-linecap="round"/><path d="M84 190H125L119 244H91Z" fill="#89b1ad"/></svg></div>
+      </div>
+      <section id="catalog" aria-labelledby="catalog-title">
+        <div class="section-top"><div><h2 id="catalog-title">精选桌面装备</h2><p class="muted">好用的工具，让每一天都更专注。</p></div><form id="search-form" class="search-form" role="search"><label class="sr-only" for="search-input">搜索商品</label><input id="search-input" name="q" type="search" placeholder="搜索键盘、显示器、硬盘…" maxlength="100"><button class="button" type="submit">搜索</button></form></div>
+        <div id="categories" class="categories" role="group" aria-label="商品分类"></div>
+        <p id="product-status" class="muted" aria-live="polite">正在加载商品…</p>
+        <div id="products" class="product-grid"></div>
+      </section>
+    </section>
+    <section id="cart-view" hidden aria-labelledby="cart-title"><div class="section-top"><div><h1 id="cart-title">我的购物车</h1><p class="muted">确认数量后即可创建订单。</p></div><button class="text-button" data-view="products" type="button">继续选购</button></div><div id="cart-content"></div></section>
+    <section id="orders-view" hidden aria-labelledby="orders-title"><div class="section-top"><div><h1 id="orders-title">我的订单</h1><p class="muted">查看订单明细，完成模拟支付或取消待支付订单。</p></div><button id="refresh-orders" class="button button-outline" type="button">刷新订单</button></div><div class="payment-note">本实验使用模拟支付，点击支付仅更新订单状态，不发生真实扣款。</div><div id="orders-content"></div></section>
+  </main>
+  <footer class="site-footer"><span>桌面集 · 微服务商城实验</span><span>商品检索 / 购物车 / 订单管理 / 模拟支付</span></footer>
+  <button id="assistant-open" class="assistant-launcher" type="button"><span aria-hidden="true">◉</span> 购物助手</button>
+  <dialog id="auth-dialog" aria-labelledby="auth-title">
+    <div class="dialog-header"><h2 id="auth-title">欢迎回来</h2><button class="close-button" data-close="auth-dialog" aria-label="关闭账户窗口" type="button">×</button></div>
+    <div class="auth-tabs" role="group" aria-label="账户操作"><button id="login-tab" class="active" type="button" aria-pressed="true">登录</button><button id="register-tab" type="button" aria-pressed="false">注册</button></div>
+    <form id="auth-form"><label for="username">用户名</label><input id="username" name="username" required minlength="3" maxlength="32" autocomplete="username" placeholder="3–32 位字母、数字或下划线"><label for="password">密码</label><input id="password" name="password" type="password" required minlength="8" maxlength="64" autocomplete="current-password" placeholder="8–64 位密码"><p id="auth-error" class="form-error" role="alert" hidden></p><button id="auth-submit" class="button full-width" type="submit">登录</button></form>
+    <p class="dialog-hint">注册账户后，购物车和订单将保存到你的账户。</p>
+  </dialog>
+  <dialog id="assistant-dialog" class="assistant-dialog" aria-labelledby="assistant-title">
+    <div class="dialog-header"><div><h2 id="assistant-title">购物助手</h2><p class="muted">商品检索与常见问题问答</p></div><button class="close-button" data-close="assistant-dialog" aria-label="关闭购物助手" type="button">×</button></div>
+    <div id="chat-messages" class="chat-messages" aria-live="polite"><div class="chat-message assistant"><span class="speaker">购物助手</span><p>你好，可以告诉我想找的商品，或询问购物车、订单、支付相关问题。</p></div></div>
+    <div class="suggestions"><button type="button" data-question="推荐一款键盘">推荐键盘</button><button type="button" data-question="如何支付订单？">如何支付？</button><button type="button" data-question="如何取消订单？">取消订单</button></div>
+    <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">输入问题</label><input id="chat-input" required maxlength="500" placeholder="输入商品名称或购物问题…"><button class="button" type="submit">发送</button></form>
+  </dialog>
+</body>
+</html>
