@@ -41,7 +41,7 @@ services:
       DB_USER: mall
       DB_PASSWORD: mall_lab_password
       SENTINEL_ADDR: sentinel:8858
-      INTERNAL_KEY: mall-lab-internal-key-change-me
+      INTERNAL_KEY: ${INTERNAL_KEY:-mall-lab-internal-key-change-me}
     ports: ["127.0.0.1:18081:8081"]
     depends_on:
       mysql:
@@ -62,7 +62,7 @@ services:
       DB_USER: mall
       DB_PASSWORD: mall_lab_password
       SENTINEL_ADDR: sentinel:8858
-      INTERNAL_KEY: mall-lab-internal-key-change-me
+      INTERNAL_KEY: ${INTERNAL_KEY:-mall-lab-internal-key-change-me}
     ports: ["127.0.0.1:18082:8082"]
     depends_on:
       mysql:
@@ -83,7 +83,7 @@ services:
       DB_USER: mall
       DB_PASSWORD: mall_lab_password
       SENTINEL_ADDR: sentinel:8858
-      INTERNAL_KEY: mall-lab-internal-key-change-me
+      INTERNAL_KEY: ${INTERNAL_KEY:-mall-lab-internal-key-change-me}
     ports: ["127.0.0.1:18083:8083"]
     depends_on:
       mysql:
@@ -104,7 +104,7 @@ services:
       DB_USER: mall
       DB_PASSWORD: mall_lab_password
       SENTINEL_ADDR: sentinel:8858
-      INTERNAL_KEY: mall-lab-internal-key-change-me
+      INTERNAL_KEY: ${INTERNAL_KEY:-mall-lab-internal-key-change-me}
     ports: ["127.0.0.1:18084:8084"]
     depends_on:
       mysql:
@@ -125,7 +125,7 @@ services:
       DB_USER: mall
       DB_PASSWORD: mall_lab_password
       SENTINEL_ADDR: sentinel:8858
-      INTERNAL_KEY: mall-lab-internal-key-change-me
+      INTERNAL_KEY: ${INTERNAL_KEY:-mall-lab-internal-key-change-me}
     ports: ["127.0.0.1:18080:8080"]
     depends_on:
       mysql:
@@ -145,7 +145,7 @@ services:
     ports: ["127.0.0.1:13000:3000"]
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: mall_lab_admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-mall_lab_admin}
       GF_USERS_ALLOW_SIGN_UP: "false"
     volumes:
       - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
